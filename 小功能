@@ -1,0 +1,71 @@
+Sub 范围命名()
+
+Dim a, b, c, d
+
+b = 5 'strat column
+c = b + 1 'end column
+d = "公司邮箱" 'range name
+a = Cells(1047586, c).End(xlUp).Row
+
+Range(Cells(1, b), Cells(a, c)).Name = d
+
+End Sub
+
+-----------------------------------------
+
+Sub 数组中查找指定值的位置()
+
+Dim arr As Variant
+Dim a As Integer
+Dim b As Integer
+
+arr = Range("arrrrr")
+a = Range("arrrrr").Rows.Count
+b = Range("arrrrr").Columns.Count
+
+Dim str As String
+str = Range("I1").Value
+
+Dim i As Integer
+Dim j As Integer
+Dim c As Integer
+Dim d As Integer
+
+For i = 1 To a
+    For j = 1 To b
+        If arr(i, j) = str Then
+            c = i
+            d = j
+            Exit For '找到就退出，也可以改成不退出，而记录该位置到一个数组中，继续查找，并且记录找到的数量
+        End If
+    Next
+Next
+
+If c = 0 Then
+    MsgBox ("No result found")
+    Exit Sub
+End If
+
+MsgBox ("Row " & c & " Column " & d)
+
+End Sub
+
+--------------------------------------------------------------------
+
+Sub 拆分字段到数组中()
+
+Dim arr, str
+
+str = Cells(1, 1)
+arr = split(str, ";")
+Dim i As Integer
+Dim a As Integer
+a = UBound(arr) + 1
+
+i = 0
+Do Until i = a
+    Cells(i + 2, 1) = arr(i) '从第二行开始循环写入数组中的值
+    i = i + 1
+Loop
+
+End Sub
