@@ -96,3 +96,67 @@ Loop
 
 End Sub
 
+Sub 新建基准表()
+Dim t As String
+Dim Wb As Workbook
+Dim Temp As String
+
+
+Application.DisplayAlerts = False
+On Error Resume Next
+
+Worksheets("行业基准表").Delete
+Application.DisplayAlerts = True
+
+t = "行业基准表"
+
+Application.Sheets.Add.Name = t
+
+Application.ScreenUpdating = False
+
+    Temp = "D:\行业基准表.xlsx"
+    Set Wb = GetObject(Temp)
+        With Wb.Sheets(1).UsedRange
+            Range("A1").Resize(.Rows.Count, .Columns.Count) = .Value
+            Wb.Close False
+        End With
+    Set Wb = Nothing
+
+Application.ScreenUpdating = True
+
+Range(Cells(1, 1), Cells(106, 3)).Name = "行业基准"
+Range(Cells(1, 5), Cells(229, 7)).Name = "海外基准"
+Range(Cells(108, 1), Cells(138, 3)).Name = "中国基准"
+Range(Cells(140, 1), Cells(168, 2)).Name = "简写基准"
+
+End Sub
+
+Sub 新建省市对照表()
+Dim t As String
+Dim Wb As Workbook
+Dim Temp As String
+
+
+Application.DisplayAlerts = False
+On Error Resume Next
+
+Worksheets("省市对照表").Delete
+Application.DisplayAlerts = True
+
+t = "省市对照表"
+
+Application.Sheets.Add.Name = t
+
+Application.ScreenUpdating = False
+
+    Temp = "D:\省市对照表.xlsx"
+    Set Wb = GetObject(Temp)
+        With Wb.Sheets(1).UsedRange
+            Range("A1").Resize(.Rows.Count, .Columns.Count) = .Value
+            Wb.Close False
+        End With
+    Set Wb = Nothing
+
+Application.ScreenUpdating = True
+
+End Sub
