@@ -1,0 +1,98 @@
+Sub 范围填充()
+
+Dim a As String
+
+a = InputBox("填点啥？")
+
+If a = "" Then
+MsgBox ("不要搞事情！")
+Exit Sub
+
+Else
+With Selection
+    .Value = a
+End With
+End If
+
+End Sub
+
+Sub 拆分邮箱()
+
+Dim a As String
+Dim b As Long
+Dim c As Long
+Dim d As Long
+Dim i As Long
+
+b = ActiveSheet.UsedRange.Rows.Count
+
+Dim arr
+
+arr = Range(Cells(2, 1), Cells(b, 2))
+
+For i = 1 To b - 2
+    a = arr(i, 1)
+    c = InStr(a, "@") + 1
+    d = Len(a)
+    arr(i, 2) = Mid(a, c, d)
+Next
+
+Stop
+
+Range(Cells(2, 1), Cells(b, 2)) = arr
+
+End Sub
+Sub 简写转换()
+    Dim arr1, arr2
+    Dim a As Long
+    Dim b As Long
+    Dim i As Long
+    Dim j As Long
+    
+    Dim x As Date
+    Dim y As Date
+    
+    x = Time
+    
+    Sheet2.Activate
+    arr1 = Range("Tab_jx")
+    a = Range("Tab_jx").Rows.Count
+    
+    Sheet4.Activate
+    b = Range("a1047586").End(xlUp).Row
+    arr2 = Range(Cells(2, 2), Cells(b, 2))
+    
+    For i = 1 To b - 1
+        For j = 1 To a
+            If arr2(i, 1) = arr1(j, 2) Then
+                arr2(i, 1) = arr1(j, 1)
+            End If
+        Next
+    Next
+    
+    Range(Cells(2, 2), Cells(b, 2)) = arr2
+    
+    y = Time - x
+    
+    MsgBox ("匹配用时：  " & y)
+    
+End Sub
+
+Sub 前面加at()
+
+
+
+Do Until Selection.Value = ""
+
+With Selection
+
+    Selection.Value = "@" & Selection.Value
+
+End With
+
+Selection.Offset(1, 0).Select
+
+Loop
+
+End Sub
+
