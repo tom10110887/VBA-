@@ -1,0 +1,457 @@
+Sub 综合处理()
+Dim x As Date
+Dim y As Date
+x = Time
+
+    Call 导入已处理的月报数据
+    Call 总量统计
+    Call 地区统计
+    Call 海外区域分布
+    Call 中国区行业
+    Call 海外行业分布
+
+y = Time - x
+MsgBox y
+
+End Sub
+
+
+Sub 总量统计()
+Dim arr1, arr2, arr3
+Dim a, b, c, d, e, f, g, h
+Dim i, j, k, l, m, n1, n2, n3
+Dim x, y, z
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim t1 As Date
+Dim t2 As Date
+
+'t1 = Time
+
+arr1 = Worksheets("数据源").UsedRange
+arr2 = Range("总量")
+
+str1 = "是否NA"
+str2 = "联系人国家"
+str3 = "联系人L1-行业"
+a = UBound(arr1)
+b = Worksheets("数据源").UsedRange.Columns.Count
+
+'清空本月数据到上月数据
+For m = 2 To UBound(arr2)
+    arr2(m, 4) = arr2(m, 2)
+    arr2(m, 5) = arr2(m, 3)
+    arr2(m, 2) = 0
+    arr2(m, 3) = 0
+Next
+
+Range("总量") = arr2
+
+arr2(2, 2) = a - 1
+
+For l = 1 To b
+    If arr1(1, l) = str1 Then
+        n1 = l
+    ElseIf arr1(1, l) = str2 Then
+        n2 = l
+    ElseIf arr1(1, l) = str3 Then
+        n3 = l
+    End If
+Next
+
+For i = 2 To a
+    Select Case arr1(i, n1)
+        Case Is = "Y"
+            arr2(2, 3) = arr2(2, 3) + 1
+    End Select
+Next
+
+For x = 2 To UBound(arr2)
+    arr2(x, 6) = arr2(x, 2) - arr2(x, 4)
+    arr2(x, 7) = arr2(x, 3) - arr2(x, 5)
+Next
+
+
+Range("总量") = arr2
+
+'t2 = Time - t1
+'MsgBox t2
+
+End Sub
+Sub 地区统计()
+Dim arr1, arr2, arr3, arr4
+Dim a, b, c, d, e, f, g, h
+Dim i, j, k, l, m, n
+Dim x, y, z
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim str4 As String
+Dim t1 As Date
+Dim t2 As Date
+
+'t1 = Time
+
+str1 = "地区部统计"
+str2 = "联系人地区部"
+str3 = "是否NA"
+str4 = "地区部NA统计"
+
+arr1 = Worksheets("数据源").UsedRange
+arr2 = Range(str1)
+arr3 = Range("总量")
+arr4 = Range(str4)
+
+a = UBound(arr1)
+b = Worksheets("数据源").UsedRange.Columns.Count
+c = UBound(arr2)
+'清空本月数据到上月数据
+For m = 2 To c
+    arr2(m, 3) = arr2(m, 2)
+    arr4(m, 3) = arr4(m, 2)
+    arr2(m, 2) = 0
+    arr4(m, 2) = 0
+Next
+
+Range(str1) = arr2
+
+'查找地区部和是否NA位置
+For l = 1 To b
+    If arr1(1, l) = str2 Then
+        x = l '地区部列
+    ElseIf arr1(1, l) = str3 Then
+        y = l '是否NA列
+    End If
+Next
+
+For i = 2 To a
+    For j = 2 To c - 1
+        If arr1(i, x) = arr2(j, 1) Then
+            arr2(j, 2) = arr2(j, 2) + 1
+        End If
+    Next
+Next
+
+i = 0
+j = 0
+    
+For i = 2 To a
+    For j = 2 To c - 1
+        If arr1(i, x) = arr4(j, 1) Then
+            If arr1(i, y) = "Y" Then
+                arr4(j, 2) = arr4(j, 2) + 1
+            End If
+        End If
+    Next
+Next
+
+
+
+i = 0
+h = 0
+g = 0
+
+For i = 2 To c - 1
+    h = h + arr2(i, 2)
+    g = g + arr4(i, 2)
+Next
+
+arr2(c, 2) = arr3(2, 2) - h
+arr4(c, 2) = arr3(2, 3) - g
+
+For n = 2 To c
+    arr2(n, 4) = arr2(n, 2) - arr2(n, 3)
+    arr4(n, 4) = arr4(n, 2) - arr4(n, 3)
+Next
+
+
+Range(str1) = arr2
+Range(str4) = arr4
+
+'t2 = Time - t1
+'MsgBox t2
+
+End Sub
+Sub 海外区域分布()
+Dim arr1, arr2, arr3, arr4
+Dim a, b, c, d, e, f, g, h
+Dim i, j, k, l, m, n
+Dim x, y, z
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim str4 As String
+Dim t1 As Date
+Dim t2 As Date
+
+'t1 = Time
+
+str1 = "海外区域分布"
+str2 = "联系人地区部"
+str3 = "是否NA"
+
+arr1 = Worksheets("数据源").UsedRange
+arr2 = Range(str1)
+
+a = UBound(arr1)
+b = Worksheets("数据源").UsedRange.Columns.Count
+c = UBound(arr2)
+'清空本月数据到上月数据
+For m = 2 To c
+    arr2(m, 4) = arr2(m, 2)
+    arr2(m, 5) = arr2(m, 3)
+    arr2(m, 2) = 0
+    arr2(m, 3) = 0
+Next
+
+Range(str1) = arr2
+
+'查找地区部和是否NA位置
+For l = 1 To b
+    If arr1(1, l) = str2 Then
+        x = l '地区部列
+    ElseIf arr1(1, l) = str3 Then
+        y = l '是否NA列
+    End If
+Next
+
+For i = 2 To a
+    For j = 2 To c
+        If arr1(i, x) = arr2(j, 1) Then
+            arr2(j, 2) = arr2(j, 2) + 1
+        End If
+    Next
+Next
+
+i = 0
+j = 0
+    
+For i = 2 To a
+    For j = 2 To c
+        If arr1(i, x) = arr2(j, 1) Then
+            If arr1(i, y) = "Y" Then
+                arr2(j, 3) = arr2(j, 3) + 1
+            End If
+        End If
+    Next
+Next
+
+
+For n = 2 To c
+    arr2(n, 6) = arr2(n, 2) - arr2(n, 4)
+    arr2(n, 7) = arr2(n, 3) - arr2(n, 5)
+Next
+
+
+Range(str1) = arr2
+
+'t2 = Time - t1
+'MsgBox t2
+
+End Sub
+Sub 中国区行业()
+Dim arr1, arr2, arr3, arr4
+Dim a, b, c, d, e, f, g, h
+Dim i, j, k, l, m, n
+Dim x, y, z
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim str4 As String
+Dim t1 As Date
+Dim t2 As Date
+
+'t1 = Time
+
+str1 = "中国区行业"
+str2 = "联系人L1-行业"
+str3 = "是否NA"
+str4 = "中国地区部"
+
+arr1 = Worksheets("数据源").UsedRange
+arr2 = Range(str1)
+
+a = UBound(arr1)
+b = Worksheets("数据源").UsedRange.Columns.Count
+c = UBound(arr2)
+'清空本月数据到上月数据
+For m = 2 To c
+    arr2(m, 4) = arr2(m, 2)
+    arr2(m, 5) = arr2(m, 3)
+    arr2(m, 2) = 0
+    arr2(m, 3) = 0
+Next
+
+Range(str1) = arr2
+
+'查找L1行业，地区部和是否NA位置
+For l = 1 To b
+    If arr1(1, l) = str2 Then
+        x = l 'L1行业列
+    ElseIf arr1(1, l) = str3 Then
+        y = l '是否NA列
+    ElseIf arr1(1, l) = "联系人地区部" Then
+        z = l '地区部列
+    End If
+Next
+
+For i = 2 To a
+    If arr1(i, z) = str4 Then
+        For j = 2 To c
+            If arr1(i, x) = arr2(j, 1) Then
+                arr2(j, 2) = arr2(j, 2) + 1
+            End If
+        Next
+    End If
+Next
+
+i = 0
+j = 0
+    
+For i = 2 To a
+    If arr1(i, z) = str4 Then
+        For j = 2 To c
+            If arr1(i, x) = arr2(j, 1) Then
+                If arr1(i, y) = "Y" Then
+                    arr2(j, 3) = arr2(j, 3) + 1
+                End If
+            End If
+        Next
+    End If
+Next
+
+
+For n = 2 To c
+    arr2(n, 6) = arr2(n, 2) - arr2(n, 4)
+    arr2(n, 7) = arr2(n, 3) - arr2(n, 5)
+Next
+
+
+Range(str1) = arr2
+
+'t2 = Time - t1
+'MsgBox t2
+
+End Sub
+Sub 海外行业分布()
+Dim arr1, arr2, arr3, arr4
+Dim a, b, c, d, e, f, g, h
+Dim i, j, k, l, m, n
+Dim x, y, z
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim str4 As String
+Dim str5 As String
+Dim t1 As Date
+Dim t2 As Date
+
+'t1 = Time
+
+str1 = "海外行业分布"
+str2 = "联系人L1-行业"
+str3 = "是否NA"
+str4 = "中国地区部"
+str5 = "联系人L2-子行业"
+
+arr1 = Worksheets("数据源").UsedRange
+arr2 = Range(str1)
+
+a = UBound(arr1)
+b = Worksheets("数据源").UsedRange.Columns.Count
+c = UBound(arr2)
+'清空本月数据到上月数据
+For m = 2 To c
+    arr2(m, 5) = arr2(m, 3)
+    arr2(m, 6) = arr2(m, 4)
+    arr2(m, 3) = 0
+    arr2(m, 4) = 0
+Next
+
+Range(str1) = arr2
+
+'查找L1行业，地区部和是否NA位置
+For l = 1 To b
+    If arr1(1, l) = str2 Then
+        x = l 'L1行业列
+    ElseIf arr1(1, l) = str3 Then
+        y = l '是否NA列
+    ElseIf arr1(1, l) = "联系人地区部" Then
+        z = l '地区部列
+    ElseIf arr1(1, l) = str5 Then
+        k = l 'L2行业列
+    End If
+Next
+
+For i = 2 To a
+    If arr1(i, z) <> str4 Then
+        For j = 2 To c
+            If arr1(i, x) = arr2(j, 1) Then
+                If arr1(i, k) = arr2(j, 2) Then
+                    arr2(j, 3) = arr2(j, 3) + 1
+                End If
+            End If
+        Next
+    End If
+Next
+
+i = 0
+j = 0
+    
+For i = 2 To a
+    If arr1(i, z) = str4 Then
+        For j = 2 To c
+            If arr1(i, x) = arr2(j, 1) Then
+                If arr1(i, k) = arr2(j, 2) Then
+                    If arr1(i, y) = "Y" Then
+                        arr2(j, 4) = arr2(j, 4) + 1
+                    End If
+                End If
+            End If
+        Next
+    End If
+Next
+
+
+For n = 2 To c
+    arr2(n, 7) = arr2(n, 3) - arr2(n, 5)
+    arr2(n, 8) = arr2(n, 4) - arr2(n, 6)
+Next
+
+
+Range(str1) = arr2
+
+'t2 = Time - t1
+'MsgBox t2
+
+End Sub
+Sub 导入已处理的月报数据()
+Dim t As String
+Dim Wb As Workbook
+Dim Temp As String
+
+
+Application.DisplayAlerts = False
+On Error Resume Next
+
+Worksheets("数据源").Delete
+Application.DisplayAlerts = True
+
+t = "数据源"
+
+Application.Sheets.Add.Name = t
+
+Application.ScreenUpdating = False
+
+    Temp = "D:\王祥炎工作\工作内容\每月报表\处理数据表\有效联系人.xlsx"
+    Set Wb = GetObject(Temp)
+        With Wb.Sheets(1).UsedRange
+            Range("A1").Resize(.Rows.Count, .Columns.Count) = .Value
+            Wb.Close False
+        End With
+    Set Wb = Nothing
+
+Application.ScreenUpdating = True
+
+End Sub
