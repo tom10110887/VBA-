@@ -1,0 +1,31 @@
+Sub 汇总工作簿()
+
+    Application.ScreenUpdating = False
+        Dim lj As String
+        Dim dirname As String
+        Dim nm As String
+        Dim nm2 As String
+        
+        lj = ActiveWorkbook.Path
+        nm = ActiveWorkbook.Name
+        dirname = Dir(lj & "\*.csv*")
+        
+        Cells.Clear
+        
+        Do While dirname <> ""
+            If dirname <> nm Then
+                nm2 = lj & "\" & dirname
+                Workbooks.Open (nm2)
+                
+                Workbooks(nm).Activate
+                
+                Workbooks(dirname).Sheets(1).UsedRange.Copy _
+                Range("A1047586").End(xlUp).Offset(1, 0)
+                
+                Workbooks(dirname).Close False
+            End If
+            
+            dirname = Dir
+        Loop
+
+End Sub
