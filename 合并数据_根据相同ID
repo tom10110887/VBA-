@@ -1,0 +1,124 @@
+Sub 合并数据行()
+
+Dim a, b, c, d, e, f
+Dim i, j, k, m, n, x, y, z
+Dim a1, b1, c1
+Dim m1, m2, m3
+Dim wid
+Dim str1 As String
+Dim str2 As String
+Dim str3 As String
+Dim str4 As String
+
+
+m1 = 1
+wid = Range("A1").End(xlToRight).Column
+
+Dim arr1, arr2, arr3, arr4
+
+arr4 = Range("Clean_data_5")
+
+Do Until ActiveCell.Value = ""
+    a = UCase(ActiveCell.Value)
+    c = ActiveCell.Row
+    
+    Do Until UCase(ActiveCell.Value) <> a
+        ActiveCell.Offset(1, 0).Select
+        b = ActiveCell.Row - 1
+    Loop
+    
+    Range(Cells(c, 1), Cells(b, wid)).Name = "Raw_1"
+
+
+arr1 = Range("Raw_1")
+arr2 = Range(Cells(1000000, 1), Cells(1000000, wid))
+arr3 = Range(Cells(1000001, 1), Cells(1002000, wid))
+
+
+a1 = UBound(arr1)
+c1 = UBound(arr1, 2)
+
+For k = 1 To c1
+    If a1 <> 1 Then
+        For i = 1 To a1
+            If i < a1 Then
+                str1 = arr1(i, 1)
+                str2 = arr1(i + 1, 1)
+                If str1 = str2 Then
+                    If arr1(i, k) <> "" Then
+                        For j = 1 To 2000
+                            If arr1(i, k) = arr3(j, k) Then
+                                m = 2
+                            End If
+                        Next
+                        For j = 1 To 2000
+                            If n <> 2 Then
+                                If m <> 2 And arr3(j, k) = "" Then
+                                    str3 = arr1(i, k)
+                                    arr3(j, k) = str3
+                                    n = 2
+                                End If
+                            End If
+                        Next
+                        n = 0
+                        m = 0
+                    End If
+        
+                End If
+            ElseIf i = a1 Then
+                If arr1(i, 1) = arr1(i - 1, 1) Then
+                    If arr1(i, k) <> "" Then
+                        For j = 1 To 10
+                            If arr1(i, k) = arr3(j, k) Then
+                                m = 2
+                            End If
+                        Next
+                        For j = 1 To 2000
+                            If n <> 2 Then
+                                If m <> 2 And arr3(j, k) = "" Then
+                                    str4 = arr1(i, k)
+                                    arr3(j, k) = str4
+                                    n = 2
+                                End If
+                            End If
+                        Next
+                        n = 0
+                        m = 0
+                    End If
+                End If
+            End If
+        Next
+    Else
+        arr3(1, k) = arr1(1, k)
+    End If
+Next
+
+For m = 1 To UBound(arr3, 2)
+    For n = 1 To UBound(arr3)
+        If arr2(1, m) = "" Then
+            arr2(1, m) = arr3(n, m)
+        ElseIf arr3(n, m) = "" Then
+            arr2(1, m) = arr2(1, m)
+        ElseIf arr2(1, m) = arr3(n, m) Then
+            arr2(1, m) = arr2(1, m)
+        Else
+            arr2(1, m) = arr2(1, m) & " ; " & arr3(n, m)
+        End If
+    Next
+Next
+
+
+Do While arr4(m1, 1) = ""
+    For m2 = 1 To UBound(arr4, 2)
+        If arr4(m1, m2) = "" Then
+            arr4(m1, m2) = arr2(1, m2)
+        End If
+    Next
+Loop
+m1 = m1 + 1
+
+Loop
+
+Range("Clean_data_5") = arr4
+
+End Sub
