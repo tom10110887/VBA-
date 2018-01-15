@@ -1,0 +1,34 @@
+Sub 汇总工作簿()
+
+    Application.ScreenUpdating = False
+        Dim lj As String
+        Dim dirname As String
+        Dim nm As String
+        Dim file_name As String
+        
+        lj = ActiveWorkbook.Path
+        nm = ActiveWorkbook.Name
+        dirname = Dir(lj & "\*.xlsx*")
+        
+        Cells.Clear
+        
+        Do While dirname <> ""
+            If dirname <> nm Then
+                file_name = lj & "\" & dirname
+                
+                Workbooks.Open (file_name)
+                
+                Workbooks(nm).Activate
+                
+                Workbooks(dirname).Sheets(1).UsedRange.Copy _
+                Range("A1047586").End(xlUp).Offset(1, 0)
+                
+                Workbooks(dirname).Close False
+            End If
+            
+            dirname = Dir
+        Loop
+        
+        Rows(1).Delete
+
+End Sub
