@@ -6,8 +6,8 @@ Sub 汇总工作簿()
         Dim nm As String
         Dim file_name As String
         
-        lj = ActiveWorkbook.Path
-        nm = ActiveWorkbook.Name
+        lj = ActiveWorkbook.Path '当前打开工作表所在路径
+        nm = ActiveWorkbook.Name '当前打开工作表的名称
         dirname = Dir(lj & "\*.xlsx*")
         
         Cells.Clear
